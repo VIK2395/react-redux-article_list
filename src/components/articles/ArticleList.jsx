@@ -1,15 +1,13 @@
 import React from "react";
 import ArticleSummary from "./ArticleSummary";
 
-const ArticleList = () => {
+const ArticleList = ({articles}) => {
     return (
         <div className="section">
-            <ArticleSummary />
-            <ArticleSummary />
-            <ArticleSummary />
-            <ArticleSummary />
+            {articles && articles.map(article => <ArticleSummary article={article} key={article.id} />)}
         </div>
     )
 }
 
-export default ArticleList
+export default ArticleList;
+
