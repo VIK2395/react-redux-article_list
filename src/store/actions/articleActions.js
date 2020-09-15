@@ -8,7 +8,7 @@ export const createArticle = (article) => {
 };
 
 export const createArticleThunk = (article) => {
-    return dispatch => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
         //make async request
         dispatch(createArticle(article))
     }
