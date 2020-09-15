@@ -1,6 +1,8 @@
 import React, {useState} from "react";
+import {connect} from "react-redux";
+import {createArticleThunk} from "../../store/actions/articleActions";
 
-const CreateArticle = () => {
+const CreateArticle = (props) => {
     const [state, setState] = useState({
         title: "",
         content: ""
@@ -15,7 +17,9 @@ const CreateArticle = () => {
 
     const handleSubmit = ev => {
         ev.preventDefault();
-        console.log(state)
+
+        props.createArticle(state);
+        //console.log(state)
     }
 
     return (
@@ -41,4 +45,12 @@ const CreateArticle = () => {
     )
 }
 
-export default CreateArticle;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createArticle: (article) => {
+            dispatch(createArticleThunk(article))
+        }
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CreateArticle);

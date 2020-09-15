@@ -1,3 +1,5 @@
+import {CREATE_ARTICLE} from "../actions/articleActions";
+
 const initState = {
     articles: [
         {id: "1", title: "first article", content: "first article content"},
@@ -7,6 +9,11 @@ const initState = {
 }
 
 const articleReducer = (state = initState, action) => {
+    switch (action.type) {
+        case CREATE_ARTICLE:
+            console.log("article created", action.article)
+    }
+
     return state
 };
 
