@@ -17,5 +17,6 @@ const store = createStore(rootReducer,
         reduxFirestore(fbComfig),
         reactReduxFirebase(fbComfig)
     )
-)
+);
+
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
