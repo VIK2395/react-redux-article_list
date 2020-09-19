@@ -15,7 +15,7 @@ export const createArticleError = (error) => {
     }
 };
 
-export const createArticleThunk = (article) => {
+export const createArticleRequest = (article) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         //make async request
         const firestore = getFirestore();

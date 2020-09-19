@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
-import {createArticleThunk} from "../../store/actions/articleActions";
+import {createArticleRequest} from "../../store/actions/articleActions";
 
 const CreateArticle = (props) => {
     const [state, setState] = useState({
@@ -48,7 +48,7 @@ const CreateArticle = (props) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         createArticle: (article) => {
-            dispatch(createArticleThunk(article))
+            dispatch(createArticleRequest(article))
         }
     }
 }

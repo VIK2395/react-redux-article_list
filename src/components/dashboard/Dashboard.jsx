@@ -6,7 +6,6 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 
 const Dashboard = ({articles}) => {
-    console.log("articles: ", articles);
     return (
         <div className="dashboard container">
             <div className="row">
@@ -30,5 +29,9 @@ const mapStateToProps = (state) => {
 
 export default compose(
     connect(mapStateToProps, null),
-    firestoreConnect(() => ["articles"])
+    //connects the online collection to the store.firestore reducer in order to reflect the collection changes #19
+    //firestoreConnect(() => ["articles"])
+    firestoreConnect([
+        {collection: "articles"}
+    ])
 )(Dashboard);
