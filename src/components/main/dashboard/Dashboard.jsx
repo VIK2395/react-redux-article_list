@@ -30,7 +30,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps, null),
     //connects the online collection to the store.firestore reducer in order to reflect the collection changes #19
-    //firestoreConnect(() => ["articles"])
     firestoreConnect([
         {collection: "articles"}
     ])
