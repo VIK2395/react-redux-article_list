@@ -1,6 +1,6 @@
 import React from "react";
 import Notifications from "./Notifications";
-import ArticleList from "../articles/ArticleList";
+import ArticleList from "./ArticleList";
 import {connect} from "react-redux";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";

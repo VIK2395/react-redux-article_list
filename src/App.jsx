@@ -1,11 +1,11 @@
 import React from "react";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
-import Dashboard from "./components/dashboard/Dashboard";
-import ArticleDetails from "./components/articles/ArticleDetails";
-import LogIn from "./components/auth/LogIn";
-import SignUp from "./components/auth/SignUp";
-import CreateArticle from "./components/articles/CreateArticle";
+import Navbar from "./components/navbar/Navbar";
+import Dashboard from "./components/main/dashboard/Dashboard";
+import ArticleDetails from "./components/main/ArticleDetails";
+import LogIn from "./components/main/auth/LogIn";
+import SignUp from "./components/main/auth/SignUp";
+import CreateArticle from "./components/main/CreateArticle";
 
 function App() {
   return (
