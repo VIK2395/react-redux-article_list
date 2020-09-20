@@ -16,7 +16,7 @@ export const createArticleError = (error) => {
 };
 
 export const createArticleRequest = (article) => {
-    return (dispatch, getState, {getFirebase, getFirestore}) => {
+    return (dispatch, getState, {getFirestore}) => {
         //make async request
         const firestore = getFirestore();
         firestore.collection("articles").add({
