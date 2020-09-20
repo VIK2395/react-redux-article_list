@@ -16,7 +16,7 @@ const ArticleDetails = (props) => {
                     </div>
                     <div className="card-action lighten-4 grey-text">
                         <div>Posted by {article.authorFirstName} {article.authorLastName}</div>
-                        <div>blah blah</div>
+                        <div>{article.createAt.toDate().toString()}</div>
                     </div>
                 </div>
             </div>
