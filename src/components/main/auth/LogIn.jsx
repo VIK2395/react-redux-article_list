@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import {logInRequest, clearLoginError} from "../../../store/actions/authActions";
+import {Redirect} from "react-router-dom";
 
 const LogIn = (props) => {
     const [credentials, setCredentials] = useState({
@@ -25,6 +26,8 @@ const LogIn = (props) => {
             props.dispatch(clearLoginError());
         }
     }, []);
+
+    if (props.auth.uid) return <Redirect to="/" />
 
     return (
         <div className="container">
@@ -52,7 +55,8 @@ const LogIn = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        authErrorMessage: state.auth.authErrorMessage
+        authErrorMessage: state.auth.authErrorMessage,
+        auth: state.firebase.auth
     }
 };
 

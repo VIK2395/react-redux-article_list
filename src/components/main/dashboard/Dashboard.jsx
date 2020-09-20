@@ -4,8 +4,11 @@ import ArticleList from "./ArticleList";
 import {connect} from "react-redux";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
+import {Redirect} from "react-router-dom";
 
-const Dashboard = ({articles}) => {
+const Dashboard = ({articles, auth}) => {
+    if (!auth.uid) return <Redirect to="/login" />
+
     return (
         <div className="dashboard container">
             <div className="row">
@@ -21,9 +24,9 @@ const Dashboard = ({articles}) => {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
-        articles: state.firestore.ordered.articles
+        articles: state.firestore.ordered.articles,
+        auth: state.firebase.auth
     }
 }
 

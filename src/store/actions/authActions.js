@@ -16,7 +16,7 @@ export const clearLoginError = () => {
 };
 
 export const logInRequest = (credentials) => {
-    return (dispatch, getState, {getFirebase}) => {
+    return (dispatch, getState, getFirebase) => {
         const firebase = getFirebase();
         //log in request
         firebase.auth().signInWithEmailAndPassword(
@@ -37,7 +37,7 @@ export const signOut = () => {
 }
 
 export const signOutRequest = () => {
-    return (dispatch, getState, {getFirebase}) => {
+    return (dispatch, getState, getFirebase) => {
         const firebase = getFirebase();
 
         firebase.auth().signOut().then(() => {

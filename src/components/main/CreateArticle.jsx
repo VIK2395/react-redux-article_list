@@ -1,26 +1,27 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
 import {createArticleRequest} from "../../store/actions/articleActions";
+import {Redirect} from "react-router-dom";
 
 const CreateArticle = (props) => {
-    const [state, setState] = useState({
+    const [article, setArticleData] = useState({
         title: "",
         content: ""
     })
 
     const handleChange = ev => {
-        setState({
-            ...state,
+        setArticleData({
+            ...article,
             [ev.target.id]: ev.target.value
         });
     }
 
     const handleSubmit = ev => {
         ev.preventDefault();
-
-        props.createArticle(state);
-        //console.log(state)
+        props.createArticle(article);
     }
+
+    if (!props.auth.uid) return <Redirect to="/login" />
 
     return (
         <div className="container">
@@ -28,14 +29,14 @@ const CreateArticle = (props) => {
                 <h5 className="grey-text text-darken-3">Create an Article</h5>
                 <div className="input-field">
                     <label htmlFor="title">Title</label>
-                    <input type="text" id="title" onChange={handleChange} value={state.title} />
+                    <input type="text" id="title" onChange={handleChange} value={article.title} />
                 </div>
                 <div className="input-field">
                     <label htmlFor="content">Content</label>
                     <textarea className="materialize-textarea"
                               id="content"
                               onChange={handleChange}
-                              value={state.content} />
+                              value={article.content} />
                 </div>
                 <div className="input-field">
                     <button className="btn pink lighten-1 z-depth-0">Create</button>
@@ -45,6 +46,12 @@ const CreateArticle = (props) => {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        auth: state.firebase.auth
+    }
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         createArticle: (article) => {
@@ -53,4 +60,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(CreateArticle);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateArticle);
