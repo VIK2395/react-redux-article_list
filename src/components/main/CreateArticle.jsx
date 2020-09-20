@@ -19,6 +19,7 @@ const CreateArticle = (props) => {
     const handleSubmit = ev => {
         ev.preventDefault();
         props.createArticle(article);
+        props.history.push("/");
     }
 
     if (!props.auth.uid) return <Redirect to="/login" />
