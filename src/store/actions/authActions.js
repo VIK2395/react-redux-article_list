@@ -1,17 +1,18 @@
-export const ADD_LOGIN_ERROR ="ADD_LOGIN_ERROR";
-export const CLEAR_LOGIN_ERROR = "CLEAR_LOGIN_ERROR";
+export const AUTH_ERROR = "AUTH_ERROR";
+export const CLEAR_AUTH_ERROR = "CLEAR_AUTH_ERROR";
 export const SIGNOUT = "SIGNOUT";
+export const SIGNUP = "SIGNUP";
 
-export const addLoginError = (errorMessage) => {
+export const authError = (errorMessage) => {
     return {
-        type: ADD_LOGIN_ERROR,
+        type: AUTH_ERROR,
         errorMessage
     }
 };
 
-export const clearLoginError = () => {
+export const clearAuthError = () => {
     return {
-        type: CLEAR_LOGIN_ERROR
+        type: CLEAR_AUTH_ERROR
     }
 };
 
@@ -23,9 +24,9 @@ export const logInRequest = (credentials) => {
             credentials.email,
             credentials.password
         ).then(() => {
-            dispatch(clearLoginError())
+            dispatch(clearAuthError())
         }).catch((error) => {
-            dispatch(addLoginError(error.message))
+            dispatch(authError(error.message))
         });
     }
 };
@@ -34,7 +35,7 @@ export const signOut = () => {
     return {
         type: SIGNOUT
     }
-}
+};
 
 export const signOutRequest = () => {
     return (dispatch, getState, getFirebase) => {
@@ -44,4 +45,33 @@ export const signOutRequest = () => {
             dispatch(signOut())
         })
     }
-}
+};
+
+export const signUp = () => {
+    return {
+        type: SIGNUP
+    }
+};
+
+export const signUpRequest = (user) => {
+    return (dispatch, getState, getFirebase) => {
+        const firebase = getFirebase();
+        const firestore = firebase.firestore();
+
+        firebase.auth().createUserWithEmailAndPassword(
+            user.email,
+            user.password
+        ).then((response) => {
+            return firestore.collection("users").doc(response.user.uid).set({
+                firstName: user.firstName,
+                lastName: user.lastName,
+                initials: `${user.firstName[0]}${user.lastName[0]}`
+            })
+        }).then(() => {
+            dispatch(signUp())
+        }).catch((error) => {
+            dispatch(authError(error.message))
+        })
+    }
+};
+

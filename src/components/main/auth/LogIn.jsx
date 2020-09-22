@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
-import {logInRequest, clearLoginError} from "../../../store/actions/authActions";
+import {logInRequest, clearAuthError} from "../../../store/actions/authActions";
 import {Redirect} from "react-router-dom";
 
 const LogIn = (props) => {
@@ -23,7 +23,7 @@ const LogIn = (props) => {
 
     useEffect(() => {
         return () => {
-            props.dispatch(clearLoginError());
+            props.dispatch(clearAuthError());
         }
     }, []);
 
@@ -55,8 +55,8 @@ const LogIn = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        authErrorMessage: state.auth.authErrorMessage,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        authErrorMessage: state.auth.authErrorMessage
     }
 };
 
