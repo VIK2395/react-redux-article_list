@@ -34,6 +34,7 @@ export default compose(
     connect(mapStateToProps, null),
     //connects the online collection to the store.firestore reducer in order to reflect the collection changes #19
     firestoreConnect([
-        {collection: "articles"}
+        //need to re-write "orderBy" in order not to get re-ordering when re-render is done, or use Reselect
+        {collection: "articles", orderBy: ["createAt", "desc"]}
     ])
 )(Dashboard);

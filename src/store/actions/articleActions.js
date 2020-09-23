@@ -18,12 +18,14 @@ export const createArticleError = (error) => {
 export const createArticleRequest = (article) => {
     return (dispatch, getState, getFirebase) => {
         const firestore = getFirebase().firestore();
+        const profile = getState().firebase.profile;
+        const authorId = getState().firebase.auth.uid;
 
         firestore.collection("articles").add({
             ...article,
-            authorFirstName: "Vasja",
-            authorLastName: "Vasiliy",
-            authorId: 12345,
+            authorFirstName: profile.firstName,
+            authorLastName: profile.lastName,
+            authorId: authorId,
             createAt: new Date()
         }).then(() => {
             dispatch(createArticle(article))

@@ -48,6 +48,7 @@ const CreateArticle = (props) => {
 }
 
 const mapStateToProps = (state) => {
+    console.log("state: ", state);
     return {
         auth: state.firebase.auth
     }
