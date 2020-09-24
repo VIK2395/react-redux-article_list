@@ -34,8 +34,9 @@ const ArticleDetails = ({article, auth}) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
+    console.log("state: ", state);
     const id = ownProps.match.params.id;
-    const articles = state.firestore.data.articles;
+    const articles = state.firestore.data.articles; //state.firestore.ordered.articles.id.id;
     const article = articles ? articles[id] : null;
     return {
         article,
@@ -46,6 +47,6 @@ const mapStateToProps = (state, ownProps) => {
 export default compose(
     connect(mapStateToProps, null),
     firestoreConnect([
-        {collection: "articles"}
+        {collection: "articles", orderBy: ["createAt", "desc"]}
     ])
 )(ArticleDetails);

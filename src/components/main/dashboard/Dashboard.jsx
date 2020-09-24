@@ -24,6 +24,7 @@ const Dashboard = ({articles, auth}) => {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
         articles: state.firestore.ordered.articles,
         auth: state.firebase.auth
