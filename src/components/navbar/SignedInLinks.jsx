@@ -13,7 +13,7 @@ const SignedInLinks = (props) => {
             </NavLink></li>
         </ul>
     )
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -21,6 +21,6 @@ const mapDispatchToProps = (dispatch) => {
          dispatch(signOutRequest())
         }
     }
-}
+};
 
 export default connect(null, mapDispatchToProps)(SignedInLinks);

@@ -1,11 +1,9 @@
-export const AUTH_ERROR = "AUTH_ERROR";
+export const LOG_AUTH_ERROR = "LOG_AUTH_ERROR";
 export const CLEAR_AUTH_ERROR = "CLEAR_AUTH_ERROR";
-export const SIGNOUT = "SIGNOUT";
-export const SIGNUP = "SIGNUP";
 
-export const authError = (errorMessage) => {
+export const logAuthError = (errorMessage) => {
     return {
-        type: AUTH_ERROR,
+        type: LOG_AUTH_ERROR,
         errorMessage
     }
 };
@@ -26,14 +24,8 @@ export const logInRequest = (credentials) => {
         ).then(() => {
             dispatch(clearAuthError())
         }).catch((error) => {
-            dispatch(authError(error.message))
+            dispatch(logAuthError(error.message))
         });
-    }
-};
-
-export const signOut = () => {
-    return {
-        type: SIGNOUT
     }
 };
 
@@ -42,14 +34,8 @@ export const signOutRequest = () => {
         const firebase = getFirebase();
 
         firebase.auth().signOut().then(() => {
-            dispatch(signOut())
+            dispatch(clearAuthError())
         })
-    }
-};
-
-export const signUp = () => {
-    return {
-        type: SIGNUP
     }
 };
 
@@ -63,14 +49,21 @@ export const signUpRequest = (user) => {
             user.password
         ).then((response) => {
             return firestore.collection("users").doc(response.user.uid).set({
+                email: user.email,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                initials: `${user.firstName[0]}${user.lastName[0]}`
+                initials: user.firstName[0].toUpperCase() + user.lastName[0].toUpperCase()
             })
         }).then(() => {
-            dispatch(signUp())
+            return firestore.collection("notifications").add({
+                content: "joined the project",
+                user: `${user.firstName} ${user.lastName}`,
+                createAt: new Date()
+            })
+        }).then(() => {
+            dispatch(clearAuthError())
         }).catch((error) => {
-            dispatch(authError(error.message))
+            dispatch(logAuthError(error.message))
         })
     }
 };

@@ -43,6 +43,10 @@ const CreateArticle = (props) => {
                     <button className="btn pink lighten-1 z-depth-0">Create</button>
                 </div>
             </form>
+            {props.articleErrorMessage &&
+                <div className="red-text center">
+                    <p>{props.articleErrorMessage}</p>
+                </div>}
         </div>
     )
 }
@@ -50,7 +54,8 @@ const CreateArticle = (props) => {
 const mapStateToProps = (state) => {
     console.log("state: ", state);
     return {
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        articleErrorMessage: state.article.articleErrorMessage
     }
 };
 

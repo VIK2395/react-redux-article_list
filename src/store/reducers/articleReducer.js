@@ -1,16 +1,24 @@
 import {
-    CREATE_ARTICLE,
-    CREATE_ARTICLE_ERROR
+    LOG_ARTICLE_ERROR,
+    CLEAR_ARTICLE_ERROR
 } from "../actions/articleActions";
 
-const articleReducer = (state = {}, action) => {
+const initState = {
+    articleErrorMessage: null
+};
+
+const articleReducer = (state = initState, action) => {
     switch (action.type) {
-        case CREATE_ARTICLE:
-            console.log("article created", action.article);
-            return state;
-        case CREATE_ARTICLE_ERROR:
-            console.log("back article create mistake", action.error);
-            return state;
+        case LOG_ARTICLE_ERROR:
+            return {
+                ...state,
+                articleErrorMessage: action.errorMessage
+            };
+        case CLEAR_ARTICLE_ERROR:
+            return {
+                ...state,
+                articleErrorMessage: null
+            };
         default:
             return state;
     }

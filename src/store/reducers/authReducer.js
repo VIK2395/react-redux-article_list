@@ -1,8 +1,6 @@
 import {
-    AUTH_ERROR,
-    CLEAR_AUTH_ERROR,
-    SIGNUP,
-    SIGNOUT
+    LOG_AUTH_ERROR,
+    CLEAR_AUTH_ERROR
 } from "../actions/authActions";
 
 const initState = {
@@ -11,25 +9,12 @@ const initState = {
 
 const authReducer = (state = initState, action) => {
     switch (action.type) {
-        case AUTH_ERROR:
-            console.log("auth error");
+        case LOG_AUTH_ERROR:
             return {
                 ...state,
                 authErrorMessage: action.errorMessage
             };
         case CLEAR_AUTH_ERROR:
-            return {
-                ...state,
-                authErrorMessage: null
-            };
-        case SIGNUP:
-            console.log("signup success");
-            return {
-                ...state,
-                authErrorMessage: null
-            };
-        case SIGNOUT:
-            console.log("signout success");
             return {
                 ...state,
                 authErrorMessage: null

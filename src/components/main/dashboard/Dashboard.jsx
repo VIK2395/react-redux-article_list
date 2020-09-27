@@ -6,7 +6,7 @@ import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
 import {Redirect} from "react-router-dom";
 
-const Dashboard = ({articles, auth}) => {
+const Dashboard = ({articles, auth, notifications}) => {
     if (!auth.uid) return <Redirect to="/login" />
 
     return (
@@ -16,7 +16,7 @@ const Dashboard = ({articles, auth}) => {
                     <ArticleList articles={articles} />
                 </div>
                 <div className="col s12 m5 offset-m1">
-                    <Notifications />
+                    <Notifications notifications={notifications} />
                 </div>
             </div>
         </div>
@@ -27,15 +27,17 @@ const mapStateToProps = (state) => {
     console.log(state);
     return {
         articles: state.firestore.ordered.articles,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        notifications: state.firestore.ordered.notifications
     }
 }
 
 export default compose(
-    connect(mapStateToProps, null),
+    connect(mapStateToProps),
     //connects the online collection to the store.firestore reducer in order to reflect the collection changes #19
     firestoreConnect([
         //need to re-write "orderBy" in order not to get re-ordering when re-render is done, or use Reselect
-        {collection: "articles", orderBy: ["createAt", "desc"]}
+        {collection: "articles", orderBy: ["createAt", "desc"]},
+        {collection: "notifications", orderBy: ["createAt", "desc"], limit: 3}
     ])
 )(Dashboard);

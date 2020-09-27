@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Redirect} from "react-router-dom";
-import {connect} from "react-redux";
-import {signUpRequest} from "../../../store/actions/authActions";
+import {connect, useDispatch} from "react-redux";
+import {clearAuthError, signUpRequest} from "../../../store/actions/authActions";
 
 const SignUp = (props) => {
     const [user, setUser] = useState({
@@ -16,12 +16,20 @@ const SignUp = (props) => {
             ...user,
             [ev.target.id]: ev.target.value
         });
-    }
+    };
 
     const handleSubmit = ev => {
         ev.preventDefault();
         props.signUp(user);
-    }
+    };
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearAuthError());
+        }
+    }, []);
 
     if (props.auth.uid) return <Redirect to="/" />
 
@@ -39,11 +47,11 @@ const SignUp = (props) => {
                 </div>
                 <div className="input-field">
                     <label htmlFor="firstName">First Name</label>
-                    <input type="text" id="firstName" onChange={handleChange} value={user.firstName} />
+                    <input type="text" required id="firstName" onChange={handleChange} value={user.firstName} />
                 </div>
                 <div className="input-field">
-                    <label htmlFor="lasttName">Last Name</label>
-                    <input type="text" id="lastName" onChange={handleChange} value={user.lastName} />
+                    <label htmlFor="lastName">Last Name</label>
+                    <input type="text" required id="lastName" onChange={handleChange} value={user.lastName} />
                 </div>
                 <div className="input-field">
                     <button className="btn pink lighten-1 z-depth-0">Sign up</button>

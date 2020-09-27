@@ -1,17 +1,16 @@
-export const CREATE_ARTICLE = "CREATE_ARTICLE";
-export const CREATE_ARTICLE_ERROR = "CREATE_ARTICLE_ERROR";
+export const LOG_ARTICLE_ERROR = "LOG_ARTICLE_ERROR";
+export const CLEAR_ARTICLE_ERROR = "CLEAR_ARTICLE_ERROR";
 
-export const createArticle = (article) => {
+export const clearArticleError = () => {
     return {
-        type: CREATE_ARTICLE,
-        article
+        type: CLEAR_ARTICLE_ERROR,
     }
 };
 
-export const createArticleError = (error) => {
+export const logArticleError = (errorMessage) => {
     return {
-        type: CREATE_ARTICLE_ERROR,
-        error
+        type: LOG_ARTICLE_ERROR,
+        errorMessage
     }
 };
 
@@ -19,18 +18,23 @@ export const createArticleRequest = (article) => {
     return (dispatch, getState, getFirebase) => {
         const firestore = getFirebase().firestore();
         const profile = getState().firebase.profile;
-        const authorId = getState().firebase.auth.uid;
+        const createAt = new Date();
 
         firestore.collection("articles").add({
             ...article,
-            authorFirstName: profile.firstName,
-            authorLastName: profile.lastName,
-            authorId: authorId,
-            createAt: new Date()
+            author: `${profile.firstName} ${profile.lastName}`,
+            createAt
         }).then(() => {
-            dispatch(createArticle(article))
+            return firestore.collection("notifications").add({
+                content: "added a new article",
+                user: `${profile.firstName} ${profile.lastName}`,
+                createAt
+            })
+        }).then(() => {
+            dispatch(clearArticleError())
         }).catch((error) => {
-            dispatch(createArticleError(error))
-        })
+            dispatch(logArticleError(error.message))
+        });
+
     }
 };

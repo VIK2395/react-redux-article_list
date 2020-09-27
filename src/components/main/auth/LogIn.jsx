@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {connect} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {logInRequest, clearAuthError} from "../../../store/actions/authActions";
 import {Redirect} from "react-router-dom";
 
@@ -21,9 +21,11 @@ const LogIn = (props) => {
         props.logIn(credentials);
     };
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         return () => {
-            props.dispatch(clearAuthError());
+            dispatch(clearAuthError());
         }
     }, []);
 
@@ -64,8 +66,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         logIn: (credentials) => {
             dispatch(logInRequest(credentials))
-        },
-        dispatch
+        }
     }
 };
 
