@@ -17,4 +17,3 @@ const ArticleList = ({articles}) => {
 }
 
 export default ArticleList;
-

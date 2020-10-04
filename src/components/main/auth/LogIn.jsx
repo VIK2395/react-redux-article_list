@@ -43,14 +43,12 @@ const LogIn = (props) => {
                     <label htmlFor="password">Password</label>
                     <input type="password" id="password" onChange={handleChange} value={credentials.password} />
                 </div>
-                <div className="input-field">
-                    <button className="btn pink lighten-1 z-depth-0">Log in</button>
-                </div>
-                {props.authErrorMessage &&
-                    <div className="red-text center">
-                        <p>{props.authErrorMessage}</p>
-                    </div>}
+                <button className="btn pink lighten-1 z-depth-0">Log in</button>
             </form>
+            {props.authErrorMessage &&
+                <div className="red-text center">
+                    <p>{props.authErrorMessage}</p>
+                </div>}
         </div>
     )
 }

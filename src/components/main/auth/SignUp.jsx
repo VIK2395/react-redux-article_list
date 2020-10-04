@@ -53,14 +53,12 @@ const SignUp = (props) => {
                     <label htmlFor="lastName">Last Name</label>
                     <input type="text" required id="lastName" onChange={handleChange} value={user.lastName} />
                 </div>
-                <div className="input-field">
-                    <button className="btn pink lighten-1 z-depth-0">Sign up</button>
-                </div>
-                {props.authErrorMessage &&
-                    <div className="red-text center">
-                        <p>{props.authErrorMessage}</p>
-                    </div>}
+                <button className="btn pink lighten-1 z-depth-0">Sign up</button>
             </form>
+            {props.authErrorMessage &&
+                <div className="red-text center">
+                    <p>{props.authErrorMessage}</p>
+                </div>}
         </div>
     )
 }

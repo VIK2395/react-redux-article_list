@@ -38,3 +38,45 @@ export const createArticleRequest = (article) => {
 
     }
 };
+
+
+
+//==============
+
+export const updateArticleRequest = (updatedArticle, articleId) => {
+    return (dispatch, getState, getFirebase) => {
+        const firestore = getFirebase().firestore();
+        const profile = getState().firebase.profile;
+
+        firestore.collection("articles").doc(articleId).update({
+            title: updatedArticle.title,
+            content: updatedArticle.content
+        }).then(() => {
+            return firestore.collection("notifications").add({
+                content: "updated an article",
+                user: `${profile.firstName} ${profile.lastName}`,
+                createAt: new Date()
+            })
+        }).then(() => {
+            console.log("updated")
+        })
+    }
+};
+
+export const deleteArticleRequest = (articleId) => {
+    return (dispatch, getState, getFirebase) => {
+        const firestore = getFirebase().firestore();
+        const profile = getState().firebase.profile;
+
+        firestore.collection("articles").doc(articleId).delete()
+            .then(() => {
+                return firestore.collection("notifications").add({
+                    content: "deleted an article",
+                    user: `${profile.firstName} ${profile.lastName}`,
+                    createAt: new Date()
+                })
+            }).then(() => {
+                console.log("deleted")
+            })
+    }
+}

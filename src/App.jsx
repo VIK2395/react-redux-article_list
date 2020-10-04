@@ -6,6 +6,8 @@ import ArticleDetails from "./components/main/ArticleDetails";
 import LogIn from "./components/main/auth/LogIn";
 import SignUp from "./components/main/auth/SignUp";
 import CreateArticle from "./components/main/CreateArticle";
+import UpdateArticle from "./components/main/UpdateArticle";
+import UserInfo from "./components/main/UserInfo";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
                   <Route path="/login" component={LogIn}/>
                   <Route path="/signup" component={SignUp}/>
                   <Route path="/create" component={CreateArticle}/>
+                  <Route path="/update/:id" component={UpdateArticle} />
+                  <Route path="/info" component={UserInfo} />
               </Switch>
           </div>
       </BrowserRouter>

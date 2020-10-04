@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {connect} from "react-redux";
 import {createArticleRequest} from "../../store/actions/articleActions";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 
 const CreateArticle = (props) => {
     const [article, setArticleData] = useState({
@@ -30,29 +30,24 @@ const CreateArticle = (props) => {
                 <h5 className="grey-text text-darken-3">Create an Article</h5>
                 <div className="input-field">
                     <label htmlFor="title">Title</label>
-                    <input type="text" id="title" onChange={handleChange} value={article.title} />
+                    <input type="text" id="title" required onChange={handleChange} value={article.title} />
                 </div>
                 <div className="input-field">
                     <label htmlFor="content">Content</label>
                     <textarea className="materialize-textarea"
                               id="content"
+                              required
                               onChange={handleChange}
                               value={article.content} />
                 </div>
-                <div className="input-field">
-                    <button className="btn pink lighten-1 z-depth-0">Create</button>
-                </div>
+                <button className="btn pink lighten-1 z-depth-0">Create</button>
+                <Link to='/' className="btn pink lighten-1 z-depth-0 right">Close</Link>
             </form>
-            {props.articleErrorMessage &&
-                <div className="red-text center">
-                    <p>{props.articleErrorMessage}</p>
-                </div>}
         </div>
     )
 }
 
 const mapStateToProps = (state) => {
-    console.log("state: ", state);
     return {
         auth: state.firebase.auth,
         articleErrorMessage: state.article.articleErrorMessage
@@ -65,6 +60,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(createArticleRequest(article))
         }
     }
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateArticle);
