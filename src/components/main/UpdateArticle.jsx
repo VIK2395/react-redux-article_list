@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {updateArticleRequest} from "../../store/actions/articleActions";
 import {Link, Redirect} from "react-router-dom";
@@ -6,10 +6,15 @@ import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
 
 const UpdateArticle = (props) => {
-    const [article, setArticleData] = useState({
-        title: props.article ? props.article.title : "",
-        content: props.article ? props.article.content : ""
-    })
+    const [article, setArticleData] = useState(props.article);
+    //state doesn't change based on new props; this is how useState works.
+
+    useEffect(() => {
+        setArticleData({
+            ...props.article
+        });
+    }, [props.article]);
+    //to update state based on new props.
 
     const handleChange = ev => {
         setArticleData({
@@ -25,6 +30,23 @@ const UpdateArticle = (props) => {
     }
 
     if (!props.auth.uid) return <Redirect to="/login" />
+
+    if (props.loading) {
+        return (
+            <div className="center">
+                <p>Loading the article...</p>
+            </div>
+        )
+    }
+
+    if (props.warning) {
+        return (
+            <div className="red-text center">
+                <p>{props.warning}</p>
+                <Link to='/' className="btn pink lighten-1 z-depth-0">Home</Link>
+            </div>
+        )
+    }
 
     return (
         <div className="container">
@@ -50,14 +72,34 @@ const UpdateArticle = (props) => {
     )
 }
 
-
 const mapStateToProps = (state, ownProps) => {
     const id = ownProps.match.params.id;
     const articles = state.firestore.data.articles;
-    const article = articles ? articles[id] : null;
+
+    const warning = () => {
+        if (articles) {
+            if (articles[id]) {
+                return null
+            } else {
+                return "No such article in the database"
+            }
+        } else {
+            return null
+        }
+    }
+
+    const noArticleYet = {
+        title: "",
+        content: ""
+    }
+
+    const article = articles ? articles[id] : noArticleYet;
+
     return {
         article,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        loading: !articles,
+        warning: warning()
     }
 };
 
@@ -67,7 +109,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(updateArticleRequest(updatedArticle, articleId))
         }
     }
-}
+};
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
